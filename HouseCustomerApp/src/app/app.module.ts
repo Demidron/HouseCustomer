@@ -7,6 +7,7 @@ import { HouseCustomerPanelComponent } from './house-customer-panel/house-custom
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { LoginFormComponent } from './house-customer-panel/login-form/login-form.component';
 import { WaterReadoutFormComponent } from './house-customer-panel/water-readout-form/water-readout-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { WaterReadoutFormComponent } from './house-customer-panel/water-readout-
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
