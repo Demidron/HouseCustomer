@@ -8,6 +8,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { LoginFormComponent } from './house-customer-panel/login-form/login-form.component';
 import { WaterReadoutFormComponent } from './house-customer-panel/water-readout-form/water-readout-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterFormComponent } from './house-customer-panel/register-form/register-form.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HouseCustomerPanelComponent,
     AdminPanelComponent,
     LoginFormComponent,
-    WaterReadoutFormComponent
+    WaterReadoutFormComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,
