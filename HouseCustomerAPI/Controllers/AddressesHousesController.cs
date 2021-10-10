@@ -27,7 +27,7 @@ namespace HouseCustomerAPI.Controllers
         public async Task<ActionResult<IEnumerable<HouseNumberDTO>>> GetAllHousesOnStreet(StreetDTO streetDTO)
         {
             var strs = await _context.AddressesHouses.Where(x=>x.StreetId==streetDTO.StreetId&&x.TypeId==streetDTO.TypeStreetId)
-                .Select(a=>new HouseNumberDTO { Id=a.Id, HouseNumber=a.HouseNumber}).ToListAsync();
+                .Select(a=>new HouseNumberDTO { AddressHouseId=a.Id, HouseNumber=a.HouseNumber}).ToListAsync();
 
             return strs;
         }

@@ -7,7 +7,7 @@ namespace HouseCustomerAPI.PresentationModels
 {
     public class ApartmentNumberDTO
     {
-        public int Id { get; set; }
+        public int ApartmentId { get; set; }
         public int ApartmentNumber { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace HouseCustomerAPI.Controllers
         public async Task<ActionResult<IEnumerable<ApartmentNumberDTO>>> GetHouseApartments(int houseId)
         {
             var apartments = await _context.Apartments.Where(ap => ap.AddressHouseId == houseId)
-                .Select(x => new ApartmentNumberDTO { Id = x.Id, ApartmentNumber = x.ApartmentNumber })
+                .Select(x => new ApartmentNumberDTO { ApartmentId = x.Id, ApartmentNumber = x.ApartmentNumber })
                 .ToListAsync();
             return apartments;
         }

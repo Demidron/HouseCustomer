@@ -7,7 +7,7 @@ namespace HouseCustomerAPI.PresentationModels
 {
     public class HouseNumberDTO
     {
-        public int Id { get; set; }
+        public int AddressHouseId { get; set; }
         public string HouseNumber { get; set; }
     }
 }
