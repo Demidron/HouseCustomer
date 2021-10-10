@@ -15,7 +15,7 @@ namespace HouseCustomerAPI.Models
         public int Id { get; set; }
         public int TypeId { get; set; }
         public int StreetId { get; set; }
-        public string NumberHouse { get; set; }
+        public string HouseNumber { get; set; }
 
         public virtual Street Street { get; set; }
         public virtual StreetType Type { get; set; }

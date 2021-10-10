@@ -13,7 +13,7 @@ namespace HouseCustomerAPI.Models
         }
 
         public int Id { get; set; }
-        public string StreetType1 { get; set; }
+        public string StreetTypeName { get; set; }
 
         public virtual ICollection<AddressesHouse> AddressesHouses { get; set; }
     }
