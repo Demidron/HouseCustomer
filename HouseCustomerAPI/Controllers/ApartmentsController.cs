@@ -22,11 +22,11 @@ namespace HouseCustomerAPI.Controllers
         }
 
         // GET: api/HouseApartments
-        [Route("HouseApartments")]
-        [HttpGet]////////////////////////////////////////////////////не могу написать   [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<ApartmentNumberDTO>>> GetHouseApartments(int houseId)
+        [HttpGet]
+        [Route("HouseApartments/{id:int}")]
+        public async Task<ActionResult<IEnumerable<ApartmentNumberDTO>>> GetHouseApartments(int id)
         {
-            var apartments = await _context.Apartments.Where(ap => ap.AddressHouseId == houseId)
+            var apartments = await _context.Apartments.Where(ap => ap.AddressHouseId == id)
                 .Select(x => new ApartmentNumberDTO { ApartmentId = x.Id, ApartmentNumber = x.ApartmentNumber })
                 .ToListAsync();
             return apartments;
