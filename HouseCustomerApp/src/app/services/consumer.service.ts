@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ConsumerModel } from '../models/consumer.model';
+import { Consumer } from '../models/dto/consumer.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConsumerService {
 
-  authorizedConsumer:ConsumerModel | undefined;
+  authorizedConsumer:Consumer | undefined;
   constructor() { }
 }
