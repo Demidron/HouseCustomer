@@ -2,23 +2,23 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputStreet">Street</label>
-            <select id="inputStreet" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
+            <select id="inputStreet" class="form-control" name="selectedStreet"
+            [ngModel]="authService.formDataRegister.selectedStreet" (ngModelChange)="onChangeStreet($event)" >
+                <option  [ngValue]="st" *ngFor="let st of authService.formDataRegister.streets">{{st.streetName}}</option>
             </select>
         </div>
         <div class="form-group col-md-3">
             <label for="inputHouseNumber">House number</label>
-            <select id="inputHouseNumber" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
+            <select id="inputHouseNumber" class="form-control" name="selectedHouseNumber"
+            [ngModel]="authService.formDataRegister.selectedHouseNumber" (ngModelChange)="onChangeHouseNumber($event)">
+                <option  [ngValue]="hn" *ngFor="let hn of authService.formDataRegister.houseNumbers">{{hn.houseNumber}}</option>
             </select>
         </div>
         <div class="form-group col-md-3">
             <label for="inputApartmentNumber">Apartment number</label>
-            <select id="inputApartmentNumber" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
+            <select id="inputApartmentNumber" class="form-control" name="selectedApartmentNumber"
+            [ngModel]="authService.formDataRegister.selectedApartmentNumber" (ngModelChange)="onChangeApartmentNumber($event)">
+            <option  [ngValue]="an" *ngFor="let an of authService.formDataRegister.apartmentNumbers">{{an.apartmentNumber}}</option>
             </select>
         </div>
     </div>
