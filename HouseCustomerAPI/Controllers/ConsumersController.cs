@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HouseCustomerAPI.Models;
+using System.Net;
 
 namespace HouseCustomerAPI.Controllers
 {
@@ -18,6 +19,44 @@ namespace HouseCustomerAPI.Controllers
         public ConsumersController(HouseConsumersDBContext context)
         {
             _context = context;
+        }
+
+
+        [HttpGet]
+        [Route("ConsumersByPhoneNumber/{phoneNumber}")]
+        public async Task<ActionResult<IEnumerable<Consumer>>> GetConsumersByPhoneNumber(string phoneNumber)
+        {
+            try
+            {
+                return await _context.Consumers.Where(x => x.PhoneNumber == phoneNumber).ToListAsync();
+            }
+            catch (InvalidOperationException ex)
+            {
+                ContentResult cr = new ContentResult() { 
+                    ContentType = "application/json", 
+                    StatusCode = (int)HttpStatusCode.NotFound, 
+                    Content = "Consumer not found" 
+                };
+                return cr;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("PhoneNumberNotTaken/{phoneNumber}")]
+        public async Task<bool> checkPhoneNumberNotTaken(string phoneNumber)
+        {
+            try
+            {
+                await _context.Consumers.FirstAsync(x => x.PhoneNumber== phoneNumber);
+                return true;
+            }
+            catch (InvalidOperationException ex)
+            {
+                return false;
+            }
+
+
         }
 
         // GET: api/Consumers
