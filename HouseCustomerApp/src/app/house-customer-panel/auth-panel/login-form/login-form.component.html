@@ -1,0 +1,13 @@
+<form [formGroup]="exForm"  (submit)="onSubmit()">
+    <div class="form-group">
+        <label  >Phone number</label>
+        <input type="text"  formControlName="phoneNumber" class="form-control" id="phoneNumber" placeholder="+38(0XX)XXX-XX-XX"  required
+        [ngClass]="{'is-invalid':phoneNumber?.invalid && phoneNumber?.touched, 'is-valid':phoneNumber?.valid}"
+        mask='+00(000)-000-00-00' >
+       
+        <small class="invalid-feedback" *ngIf="phoneNumber?.invalid && phoneNumber?.errors?.minlength" >Please provide a valid phone number.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="exForm.invalid">Submit</button>
+    <app-login-toast aria-live="polite" aria-atomic="true"></app-login-toast>
+</form>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApartmentNumber } from '../models/dto/apartment-number.model';
 import { Consumer } from '../models/dto/consumer.model';
+import { ConsumersApartment } from '../models/dto/consumers-apartment';
 import { HouseNumber } from '../models/dto/house-number.model';
 import { Street } from '../models/dto/street.model';
 import { Register } from '../models/register.model';
@@ -11,26 +11,30 @@ import { Register } from '../models/register.model';
 })
 export class AuthService {
 
-  readonly addressesHousesURL="https://localhost:44345/api/AddressesHouses";
-  readonly apartmentsURL="https://localhost:44345/api/Apartments";
-  formDataRegister:Register=new Register();
+  readonly apiURL="https://localhost:44345/api";
   consumerRegistered:Consumer=new Consumer();
 
   constructor(private http:HttpClient) { }
 
+  register(consumer:Consumer){
+    return this.http.post(this.apiURL+"/Consumers",consumer);
+  }
+  login(phoneNumber:string){
+    return this.http.get(this.apiURL+`/Consumers/ConsumersByPhoneNumber/${phoneNumber}`);
+  }
+  addConsumerApartment(conAp:ConsumersApartment){
+    return this.http.post(this.apiURL+"/ConsumersApartments",conAp);
+  }
+  checkPhoneNumber(phoneNumber:string){
+    return this.http.get(this.apiURL+`/Consumers/PhoneNumberNotTaken/${phoneNumber}`);
+  }
   refreshStreets(){
-    this.http.get(this.addressesHousesURL+"/Streets")
-    .toPromise()
-    .then(res=>this.formDataRegister.streets=res as Street[]);
+    return this.http.get(this.apiURL+"/AddressesHouses/Streets")
   }
   refreshHouseNumbersFromStreet(st:Street){
-    this.http.post(this.addressesHousesURL+"/StreetHouses",st)
-    .toPromise()
-    .then(res=>this.formDataRegister.houseNumbers=res as HouseNumber[]);
+    return this.http.post(this.apiURL+"/AddressesHouses/StreetHouses",st);
   }
   refreshApartmentNumbersFromHouseNumber(hn:HouseNumber){
-    this.http.get(`${this.apartmentsURL}/HouseApartments/${hn.addressHouseId}`)
-    .toPromise()
-    .then(res=>this.formDataRegister.apartmentNumbers=res as ApartmentNumber[]);
+    return this.http.get(`${this.apiURL}/Apartments/HouseApartments/${hn.addressHouseId}`);
   }
 }

@@ -12,12 +12,12 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if(this.consumerService.authorizedConsumer==null){
-      this.router.navigate(['/customer/login'])
+      this.router.navigate(['/customer/auth/login'])
       return false;
     }
     else 
     {
-      this.router.navigate(['/customer/water-readout'])
+      // this.router.navigate(['/customer/water-readout'])
       return true;
     };
   }

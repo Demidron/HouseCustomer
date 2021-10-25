@@ -1,0 +1,54 @@
+<form [formGroup]="regForm"  (submit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="selectedStreet">Street</label>
+            <select id="selectedStreet" class="form-control" formControlName="selectedStreet" name="selectedStreet"
+            [ngClass]="{'is-invalid':selectedStreet?.invalid && selectedStreet?.touched, 'is-valid':selectedStreet?.valid}"> 
+                <option  [ngValue]="st" *ngFor="let st of formDataRegister.streets">{{st.streetName}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="selectedHouseNumber">House number</label>
+            <select id="selectedHouseNumber" class="form-control" formControlName="selectedHouseNumber" name="selectedHouseNumber"
+            [ngClass]="{'is-invalid':selectedHouseNumber?.invalid && selectedHouseNumber?.touched, 'is-valid':selectedHouseNumber?.valid}">
+                <option  [ngValue]="hn" *ngFor="let hn of formDataRegister.houseNumbers">{{hn.houseNumber}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="selectedApartmentNumber">Apartment number</label>
+            <select id="selectedApartmentNumber" class="form-control" formControlName="selectedApartmentNumber" name="selectedApartmentNumber"
+            [ngClass]="{'is-invalid':selectedApartmentNumber?.invalid && selectedApartmentNumber?.touched, 'is-valid':selectedApartmentNumber?.valid}">
+                <option  [ngValue]="an" *ngFor="let an of formDataRegister.apartmentNumbers">{{an.apartmentNumber}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="inputSurname">Surname</label>
+            <input type="text" class="form-control" formControlName="inputSurname" id="inputSurname" placeholder="Surname" required
+            [ngClass]="{'is-invalid':inputSurname?.invalid && inputSurname?.touched, 'is-valid':inputSurname?.valid}">
+            <small *ngIf="inputSurname?.invalid" class="invalid-feedback">Please Surname patronymic.</small>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" formControlName="inputName" id="inputName" placeholder="Name" required
+            [ngClass]="{'is-invalid':inputName?.invalid && inputName?.touched, 'is-valid':inputName?.valid}">
+            <small *ngIf="inputName?.invalid" class="invalid-feedback">Please Name patronymic.</small>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputPatronymic">Patronymic</label>
+            <input type="text" class="form-control" formControlName="inputPatronymic" id="inputPatronymic" placeholder="Patronymic" required
+            [ngClass]="{'is-invalid':inputPatronymic?.invalid && inputPatronymic?.touched, 'is-valid':inputPatronymic?.valid}">
+            <small *ngIf="inputPatronymic?.invalid" class="invalid-feedback">Please input patronymic.</small>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputPhoneNumber">Phone number</label>
+            <input type="text"  formControlName="phoneNumber" class="form-control" id="phoneNumber" placeholder="+38(0XX)XXX-XX-XX"  required
+            [ngClass]="{'is-invalid':phoneNumber?.invalid && phoneNumber?.touched, 'is-valid':phoneNumber?.valid}"
+            mask='+00(000)-000-00-00'>
+            <small class="invalid-feedback" *ngIf="phoneNumber?.invalid && phoneNumber?.errors?.minlength" >Please provide a valid phone number.</small>
+            <small class="invalid-feedback" *ngIf="phoneNumber?.invalid && phoneNumber?.errors?.phoneNumberTaken">This phone number has been taken, please use another one.</small>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="regForm.invalid||!checkSelectors" >Register</button>
+</form>

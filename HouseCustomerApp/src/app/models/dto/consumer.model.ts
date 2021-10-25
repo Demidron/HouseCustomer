@@ -1,8 +1,7 @@
 export class Consumer{
-    id:number=0;
-    apartmentId:number=0;
-    name:string="";
-    lastName:string="";
-    patronymic:string="";
-    phoneNumber:string="";
+    public id!: number;
+    public name:string="";
+    public lastName:string="";
+    public patronymic:string="";
+    public phoneNumber:string="";
 }
