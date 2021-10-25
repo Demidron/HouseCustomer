@@ -10,7 +10,7 @@ namespace HouseCustomerAPI.Models
         public Apartment()
         {
             ColdWaterReadings = new HashSet<ColdWaterReading>();
-            Consumers = new HashSet<Consumer>();
+            ConsumersApartments = new HashSet<ConsumersApartment>();
             HotWaterReadings = new HashSet<HotWaterReading>();
         }
 
@@ -22,7 +22,7 @@ namespace HouseCustomerAPI.Models
 
         public virtual AddressesHouse AddressHouse { get; set; }
         public virtual ICollection<ColdWaterReading> ColdWaterReadings { get; set; }
-        public virtual ICollection<Consumer> Consumers { get; set; }
+        public virtual ICollection<ConsumersApartment> ConsumersApartments { get; set; }
         public virtual ICollection<HotWaterReading> HotWaterReadings { get; set; }
     }
 }

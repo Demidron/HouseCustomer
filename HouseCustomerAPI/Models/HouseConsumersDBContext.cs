@@ -21,18 +21,19 @@ namespace HouseCustomerAPI.Models
         public virtual DbSet<Apartment> Apartments { get; set; }
         public virtual DbSet<ColdWaterReading> ColdWaterReadings { get; set; }
         public virtual DbSet<Consumer> Consumers { get; set; }
+        public virtual DbSet<ConsumersApartment> ConsumersApartments { get; set; }
         public virtual DbSet<HotWaterReading> HotWaterReadings { get; set; }
         public virtual DbSet<Street> Streets { get; set; }
         public virtual DbSet<StreetType> StreetTypes { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Server=DESKTOP-FVKQGTU\\SQLEXPRESS;Database=HouseConsumersDB;Trusted_Connection=True;");
-//            }
-//        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-FVKQGTU\\SQLEXPRESS;Database=HouseConsumersDB;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,21 +79,28 @@ namespace HouseCustomerAPI.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.CurrentReadingsDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LastReadingsDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Apartment)
                     .WithMany(p => p.ColdWaterReadings)
                     .HasForeignKey(d => d.ApartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ColdWater__Apart__29221CFB");
+                    .HasConstraintName("FK__ColdWater__Apart__45BE5BA9");
 
                 entity.HasOne(d => d.ConsumerWriter)
                     .WithMany(p => p.ColdWaterReadings)
                     .HasForeignKey(d => d.ConsumerWriterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ColdWater__Consu__2A164134");
+                    .HasConstraintName("FK__ColdWater__Consu__46B27FE2");
             });
 
             modelBuilder.Entity<Consumer>(entity =>
             {
+                entity.HasIndex(e => e.PhoneNumber, "IX_Consumers")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.LastName)
@@ -113,12 +121,23 @@ namespace HouseCustomerAPI.Models
                     .HasMaxLength(12)
                     .IsUnicode(false)
                     .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<ConsumersApartment>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.HasOne(d => d.Apartment)
-                    .WithMany(p => p.Consumers)
+                    .WithMany(p => p.ConsumersApartments)
                     .HasForeignKey(d => d.ApartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Consumers__Apart__25518C17");
+                    .HasConstraintName("FK__Consumers__Apart__3F115E1A");
+
+                entity.HasOne(d => d.Consumer)
+                    .WithMany(p => p.ConsumersApartments)
+                    .HasForeignKey(d => d.ConsumerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Consumers__Consu__3E1D39E1");
             });
 
             modelBuilder.Entity<HotWaterReading>(entity =>
@@ -127,17 +146,21 @@ namespace HouseCustomerAPI.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.CurrentReadingsDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LastReadingsDate).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Apartment)
                     .WithMany(p => p.HotWaterReadings)
                     .HasForeignKey(d => d.ApartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HotWaterR__Apart__2645B050");
+                    .HasConstraintName("FK__HotWaterR__Apart__43D61337");
 
                 entity.HasOne(d => d.ConsumerWriter)
                     .WithMany(p => p.HotWaterReadings)
                     .HasForeignKey(d => d.ConsumerWriterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HotWaterR__Consu__2739D489");
+                    .HasConstraintName("FK__HotWaterR__Consu__44CA3770");
             });
 
             modelBuilder.Entity<Street>(entity =>
@@ -157,7 +180,6 @@ namespace HouseCustomerAPI.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
-                    .HasColumnName("StreetTypeName")
                     .IsFixedLength(true);
             });
 
