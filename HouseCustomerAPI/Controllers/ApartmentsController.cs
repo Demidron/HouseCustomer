@@ -23,11 +23,38 @@ namespace HouseCustomerAPI.Controllers
 
         // GET: api/HouseApartments
         [HttpGet]
+        [Route("ApartmentByApartmentId/{id:int}")]
+        public async Task<ActionResult<ApartmentDTO>> GetApartmentByApartmentId(int id)
+        {
+            return await _context.Apartments.Where(x => x.Id == id).Select(apartment => new ApartmentDTO
+            {
+                ApartmentId = apartment.Id,
+                ApartmentNumber = apartment.ApartmentNumber,
+                FullAdress = apartment.AddressHouse.Type.StreetTypeName + " " +
+                        apartment.AddressHouse.Street.StreetName + " " +
+                        apartment.AddressHouse.HouseNumber
+            }).FirstOrDefaultAsync();
+            //var st = new ApartmentDTO  ////Object reference not set to an instance of an object 
+            //{
+            //    ApartmentId = apartment.Id,
+            //    ApartmentNumber = apartment.ApartmentNumber,
+            //    FullAdress = apartment.AddressHouse.Type.StreetTypeName + " " +
+            //        apartment.AddressHouse.Street.StreetName + " " +
+            //        apartment.AddressHouse.HouseNumber
+            //};
+            //return st;
+        }
+        // GET: api/HouseApartments
+        [HttpGet]
         [Route("HouseApartments/{id:int}")]
-        public async Task<ActionResult<IEnumerable<ApartmentNumberDTO>>> GetHouseApartments(int id)
+        public async Task<ActionResult<IEnumerable<ApartmentDTO>>> GetHouseApartments(int id)
         {
             var apartments = await _context.Apartments.Where(ap => ap.AddressHouseId == id)
-                .Select(x => new ApartmentNumberDTO { ApartmentId = x.Id, ApartmentNumber = x.ApartmentNumber })
+                .Select(x => new ApartmentDTO { ApartmentId = x.Id, ApartmentNumber = x.ApartmentNumber,
+                    FullAdress=x.AddressHouse.Type.StreetTypeName+" "+ 
+                    x.AddressHouse.Street.StreetName + " " +
+                    x.AddressHouse.HouseNumber
+                })
                 .ToListAsync();
             return apartments;
         }
