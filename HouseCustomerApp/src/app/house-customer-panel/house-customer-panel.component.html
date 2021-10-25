@@ -1,18 +1,15 @@
-
 <nav class="navbar navbar-dark bg-primary">
     <a class="navbar-brand" href="#">Water reading</a>
+    <!-- <span class="navbar-text"> -->
+       <label>{{consumerService.authorizedConsumer?.lastName + " " + consumerService.authorizedConsumer?.name + " " + consumerService.authorizedConsumer?.patronymic }}</label>
+    <!-- </span> -->
+    <ng-template [ngIf]="isLogin">
+        <button class="btn btn-outline-danger my-2 my-sm-0" (click)="onExit()">Exit</button>
+    </ng-template>
 </nav>
 
-<div class="card container consumerCard">
-    <ul class="nav nav-pills nav-fill card-header-tabs">
-        <li class="nav-item">
-            <a class="nav-link " routerLink='/customer/login' routerLinkActive='active' >Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/customer/register"  routerLinkActive='active'>Register</a>
-        </li>
-    </ul>
-    <div class="card-body">
-        <router-outlet></router-outlet>
-    </div>
-</div>
+<ngb-alert *ngFor="let alert of toastService.alerts" [type]="alert.type"
+ header="alert.header" (closed)="toastService.closeAlert(alert)">
+ {{ alert.message }}</ngb-alert>
+  
+<router-outlet></router-outlet>

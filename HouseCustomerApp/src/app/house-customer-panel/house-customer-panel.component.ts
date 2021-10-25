@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConsumerService } from '../services/consumer.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-house-customer-panel',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HouseCustomerPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(public toastService:ToastService, public consumerService:ConsumerService,private router: Router) { }
 
+  get isLogin():boolean {return this.consumerService.authorizedConsumer? true : false;}
   ngOnInit(): void {
+    // this.toastService.alerts
   }
-
+  onExit(){
+    this.consumerService.authorizedConsumer=null;
+    this.router.navigate(['/customer/auth/login'])
+  }
 }
