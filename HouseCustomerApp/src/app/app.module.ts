@@ -16,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterFormComponent } from './house-customer-panel/auth-panel/register-form/register-form.component';
 import { AuthPanelComponent } from './house-customer-panel/auth-panel/auth-panel.component';
 import { LoginToastComponent } from './toasts/login-toast/login-toast.component';
+import { ValidStatusDirective } from './directives/valid-status.directive';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -30,7 +31,8 @@ const maskConfig: Partial<IConfig> = {
     WaterReadoutFormComponent,
     RegisterFormComponent,
     AuthPanelComponent,
-    LoginToastComponent
+    LoginToastComponent,
+    ValidStatusDirective
   ],
   imports: [
     BrowserModule,
