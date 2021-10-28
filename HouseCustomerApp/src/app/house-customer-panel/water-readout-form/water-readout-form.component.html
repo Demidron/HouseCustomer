@@ -19,10 +19,10 @@
 <div class="card container consumerCard" >
     <div class="card-header">Hot water reading</div>
     <div class="card-body">
-        <form  style="justify-content: space-between;">
+        <form  [formGroup]="waterForm" (submit)="onSubmit()" style="justify-content: space-between;">
             <div class="row" style="justify-content: space-between;">
                 <div class="col-3">
-                    <label  class="form-label">Previous reading</label>
+                    <label  class="form-label">Last reading</label>
                    
                 </div>
                 <div class="col-3">
@@ -39,27 +39,22 @@
             <div class="row" style="justify-content: space-between;">
                 <div class="col-3">
                     
-                    <span class="input-group-text input-reading" id="basic-addon3">1700</span>
+                    <span class="input-group-text input-reading" id="basic-addon3">{{waterReadoutService.hotWaterReading.currentReadings}}</span>
                 </div>
                 <div class="col-3">
                     <div class="btn-group ">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <input type="text" class= "input-reading form-control" placeholder="" [formControl]="coldWaterReading" id="coldWaterReading" placeholder="XXXXXX"  required>
-                        <!-- mask='000000' -->
-                        <button type="button" class="btn btn-primary">+</button>
+                        <!-- <button type="button" class="btn btn-primary">-</button> -->
+                        <input type="text" class= "input-reading form-control" placeholder="" formControlName="hotWaterReading" id="hotWaterReading" placeholder="XXXXXX" mask="0000000" required
+                         appValidStatus >
+                        <small class="invalid-feedback" *ngIf="hotWaterReading?.invalid && hotWaterReading?.errors?.waterReadingLessPrev" >Please provide a valid .</small>
+                        <!-- <button type="button" class="btn btn-primary">+</button> -->
                     </div>
-                    <!-- <input type="text" class= "input-reading form-control" placeholder="" [formControl]="coldWaterReading" id="coldWaterReading" placeholder="XXXXXX"  required> -->
-                    <!-- <div class="btn-group ">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn btn-primary">+</button>
-                    </div> -->
-                    <!-- mask='000000' -->
                 </div>
                 <div class="col-3">
                    
-                    <span class="input-group-text input-reading" id="basic-addon3">111100</span>
+                    <span class="input-group-text input-reading" id="basic-addon3">{{diff}}</span>
                 </div>
-                <button type="submit" class="btn btn-primary col-auto" >Submit</button>
+                <button type="submit" class="btn btn-primary col-auto"  [disabled]="waterForm?.invalid">Submit</button>
             </div>
         </form>
     
