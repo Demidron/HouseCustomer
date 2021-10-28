@@ -17,7 +17,7 @@ export class HouseCustomerPanelComponent implements OnInit {
     // this.toastService.alerts
   }
   onExit(){
-    this.consumerService.authorizedConsumer=null;
-    this.router.navigate(['/customer/auth/login'])
+    this.consumerService.logoutConsumer();
+
   }
 }

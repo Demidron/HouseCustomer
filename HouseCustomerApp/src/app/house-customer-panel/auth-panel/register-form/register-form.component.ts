@@ -24,6 +24,7 @@ export class RegisterFormComponent implements OnInit {
   
   public regForm =this.createForm();
   public formDataRegister:Register=new Register();
+  private phonePrefix="380";
   constructor(private authService:AuthService, private fb:FormBuilder, private consumerService:ConsumerService, private router:Router,private toastService:ToastService) { }
 
   get checkSelectors():boolean {return this.regForm.controls[NamesFields.SELECTEDSTREET].enabled 
@@ -48,34 +49,18 @@ export class RegisterFormComponent implements OnInit {
     .then(res=>this.formDataRegister.streets=res as Street[]);
 
     this.addSubscribers();
-    this.regForm.controls[NamesFields.PHONENUMBER].setAsyncValidators(ValidatePhoneNumberNotTaken.createValidator(this.authService))
+    this.regForm.controls[NamesFields.PHONENUMBER].setAsyncValidators(ValidatePhoneNumberNotTaken.createValidator(this.authService));
+   
   }
 
   onSubmit(){ 
-    this.authService.register({
-      id:0,
-
-      name:this.regForm.value[NamesFields.NAME],
-      lastName:this.regForm.value[NamesFields.LASTNAME],
-      patronymic:this.regForm.value[NamesFields.PATRONYMIC],
-      phoneNumber:this.regForm.value[NamesFields.PHONENUMBER]
-    }).subscribe((res: any) => {
-      let resCon=res as Consumer;
-      if(resCon){
-        this.authService.addConsumerApartment({consumerId: resCon.id, apartmentId: this.regForm.value[NamesFields.SELECTEDAPARTMENTNUMBER].apartmentId}).subscribe((resCA:any)=>{
-          this.consumerService.authorizedConsumer=resCon;
-          this.router.navigateByUrl('/customer/water-readout');
-          this.toastService.addAlert({type: AlertTypes.SUCCESS,message: "Register success"},2000)
-          },
-          err => {
-            this.toastService.addAlert({type: AlertTypes.DANGER,message: err.message},2000)
-          }
-        )  
-      }
-    },
-    err => {
-      this.toastService.addAlert({type: AlertTypes.DANGER,message: err.message},2000)
-    })
+    this.consumerService.registerConsumer({
+        id:0,
+        name:this.regForm.value[NamesFields.NAME],
+        lastName:this.regForm.value[NamesFields.LASTNAME],
+        patronymic:this.regForm.value[NamesFields.PATRONYMIC],
+        phoneNumber:this.regForm.value[NamesFields.PHONENUMBER]
+      },this.regForm.value[NamesFields.SELECTEDAPARTMENTNUMBER].apartmentId);
   }
 
   createForm():FormGroup{
@@ -96,26 +81,26 @@ export class RegisterFormComponent implements OnInit {
   }
   houseNumUpdate(res:HouseNumber[]){
     this.formDataRegister.houseNumbers=res;
-    var shn =this.regForm.controls["selectedHouseNumber"]
+    var shn =this.regForm.controls[NamesFields.SELECTEDHOUSENUMBER]
     shn.setValue(undefined);
     this.formDataRegister.houseNumbers.length>0 ? shn.enable() : shn.disable()
   }
   apartmentNumUpdate(res:Apartment[]){
     this.formDataRegister.apartmentNumbers=res;
-    var san =this.regForm.controls["selectedApartmentNumber"];
+    var san =this.regForm.controls[NamesFields.SELECTEDAPARTMENTNUMBER];
     san.setValue(undefined);
     this.formDataRegister.apartmentNumbers.length>0 ? san.enable() : san.disable();
   }
 
   addSubscribers(){
-    this.regForm.controls["selectedStreet"].valueChanges.subscribe((obj:Street)=>{
+    this.regForm.controls[NamesFields.SELECTEDSTREET].valueChanges.subscribe((obj:Street)=>{
       this.authService.refreshHouseNumbersFromStreet(obj).toPromise()
       .then(res=>{
         this.houseNumUpdate(res as HouseNumber[])
         this.apartmentNumUpdate([]);
       });
     });
-    this.regForm.controls["selectedHouseNumber"].valueChanges.subscribe((obj:HouseNumber)=>{
+    this.regForm.controls[NamesFields.SELECTEDHOUSENUMBER].valueChanges.subscribe((obj:HouseNumber)=>{
       if(obj){
         this.authService.refreshApartmentNumbersFromHouseNumber(obj)
         .toPromise()
