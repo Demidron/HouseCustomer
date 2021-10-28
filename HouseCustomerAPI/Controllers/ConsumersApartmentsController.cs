@@ -23,7 +23,7 @@ namespace HouseCustomerAPI.Controllers
 
 
         [HttpGet]
-        [Route("ApartmentssssByConsumerId/{id:int}")]
+        [Route("ApartmentsByConsumerId/{id:int}")]
         public async Task<ActionResult<IEnumerable<ApartmentDTO>>> GetApartmentsByConsumerId(int id)
         {
             var consumersApartment = await _context.ConsumersApartments.Where(x => x.ConsumerId == id).Select(conap => new ApartmentDTO

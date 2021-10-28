@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HouseCustomerAPI.Models;
 using System.Net;
+using HouseCustomerAPI.PresentationModels;
 
 namespace HouseCustomerAPI.Controllers
 {
@@ -24,11 +25,19 @@ namespace HouseCustomerAPI.Controllers
 
         [HttpGet]
         [Route("ConsumersByPhoneNumber/{phoneNumber}")]
-        public async Task<ActionResult<IEnumerable<Consumer>>> GetConsumersByPhoneNumber(string phoneNumber)
+        public async Task<ActionResult<ConsumerDTO>> GetConsumersByPhoneNumber(string phoneNumber)
         {
+
             try
             {
-                return await _context.Consumers.Where(x => x.PhoneNumber == phoneNumber).ToListAsync();
+                return await _context.Consumers.Where(x => x.PhoneNumber == phoneNumber).Select(consumer => new ConsumerDTO
+                {
+                    Id=consumer.Id,
+                    Name=consumer.Name,
+                    LastName=consumer.LastName,
+                    Patronymic=consumer.Patronymic,
+                    PhoneNumber=consumer.PhoneNumber
+                }).FirstAsync();
             }
             catch (InvalidOperationException ex)
             {

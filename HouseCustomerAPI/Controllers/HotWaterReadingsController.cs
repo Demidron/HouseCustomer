@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HouseCustomerAPI.Models;
+using HouseCustomerAPI.PresentationModels;
 
 namespace HouseCustomerAPI.Controllers
 {
@@ -22,10 +23,19 @@ namespace HouseCustomerAPI.Controllers
 
         [HttpGet]
         [Route("HotWaterReadingsByApartmentId/{id:int}")]
-        public async Task<ActionResult<HotWaterReading>> GetLastHotWaterReadingByApartmentId(int id)
+        public async Task<ActionResult<WaterReadingDTO>> GetLastHotWaterReadingByApartmentId(int id)
         {
             return await _context.HotWaterReadings
                 .Where(x=>x.ApartmentId==id)
+                .Select(x=>new WaterReadingDTO { 
+                    Id =x.Id,
+                    ApartmentId=x.Id,
+                    ConsumerWriterId=x.ConsumerWriterId,
+                    LastReadings=x.LastReadings,
+                    LastReadingsDate=x.LastReadingsDate,
+                    CurrentReadings=x.CurrentReadings,
+                    CurrentReadingsDate=x.CurrentReadingsDate
+                })
                 .OrderByDescending(x => x.CurrentReadingsDate)
                 .FirstAsync();
         }
