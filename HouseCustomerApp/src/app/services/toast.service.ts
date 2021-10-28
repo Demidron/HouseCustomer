@@ -14,7 +14,7 @@ export class ToastService {
   constructor() {
     
   }
-  show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
+  showToast(textOrTpl: string | TemplateRef<any>, options: any = {}) {
     this.toasts.push({ textOrTpl, ...options });
   }
   addAlert(alert:Alert, delay?:number){
@@ -25,7 +25,7 @@ export class ToastService {
   closeAlert(alert: Alert) {
     this.alerts.splice(this.alerts.indexOf(alert), 1);
   }
-  remove(toast:any) {
+  removeToast(toast:any) {
     this.toasts = this.toasts.filter(t => t !== toast);
   }
 
